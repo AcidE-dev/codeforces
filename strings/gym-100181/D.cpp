@@ -6,7 +6,7 @@ const int MAXN = 2e4 + 10;
 const int INF = 1e9;
 
 
-int manacher_odd(string s) {
+long long manacher_odd(string s) {
     int n = (int) s.size();
     vector<int> d(n, 1);
     int l = 0, r = 0;
@@ -18,10 +18,12 @@ int manacher_odd(string s) {
         if (i + d[i] - 1 > r)
             l = i - d[i] + 1, r = i + d[i] - 1;
     }
-    return accumulate(d.begin(), d.end(), 0);
+    long long ans = 0;
+    for (auto el: d) ans += el;
+    return ans;
 }
 
-int manacher_even(string s) {
+long long manacher_even(string s) {
     int n = (int) s.size();
     vector<int> d(n, 0);
     int l = -1, r = -1;
@@ -33,17 +35,19 @@ int manacher_even(string s) {
         if (i + d[i] > r)
             l = i - d[i] + 1, r = i + d[i];
     }
-    return accumulate(d.begin(), d.end(), 0);
+    long long ans = 0;
+    for (auto el: d) ans += el;
+    return ans;
 }
 
-int pal_cnt(string s) {
+long long pal_cnt(string s) {
     return manacher_odd(s) + manacher_even(s);
 }
 
 void solve() {
     string s;
     cin >> s;
-    cout << pal_cnt(s);
+    cout << pal_cnt(s) - s.size();
 }
 
 
